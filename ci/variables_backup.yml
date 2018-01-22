@@ -2,7 +2,7 @@ cf-api-url:
 cf-username:
 cf-password:
 cf-org:
-aws-access-key-id: 
+aws-access-key-id:
 aws-secret-access-key:
 aws-bucket:
 github-repository:
