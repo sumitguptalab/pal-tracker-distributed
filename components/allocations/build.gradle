@@ -1,7 +1,10 @@
+apply plugin: "org.springframework.boot"
+
 dependencies {
     compile project(":components:rest-support")
     compile "org.springframework:spring-jdbc:$springVersion"
     compile "com.netflix.hystrix:hystrix-javanica:1.5.6"
 
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-redis', version: '1.2.0.RELEASE'
     testCompile project(":components:test-support")
 }

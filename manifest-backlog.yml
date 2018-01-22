@@ -8,3 +8,4 @@ applications:
   - tracker-backlog-database
   - tracker-service-registry
   - tracker-circuit-breaker-dashboard
+  - redis
