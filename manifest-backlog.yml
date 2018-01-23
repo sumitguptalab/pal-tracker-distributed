@@ -10,7 +10,8 @@ applications:
   - tracker-circuit-breaker-dashboard
   - redis
   - tracker-sso
+  - tracker-config-server
   env:
     GRANT_TYPE: client_credentials
-    SECURITY_USER_NAME: actuator
-    SECURITY_USER_PASSWORD: operations4red
+#    SECURITY_USER_NAME: actuator
+#    SECURITY_USER_PASSWORD: operations4red
