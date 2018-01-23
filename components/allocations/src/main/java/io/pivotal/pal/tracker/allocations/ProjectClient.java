@@ -33,47 +33,47 @@ public class ProjectClient {
         this.template = redisTemplate;
     }
 
-//    @HystrixCommand(fallbackMethod = "getProjectFromInMemoryCache")
-//    public ProjectInfo getProject(long projectId) {
-//        logger.info("Calling real service for projectId : " + projectId);
-//        ProjectInfo projectInfo = restOperations.getForObject(registrationServerEndpoint + "/projects/" + projectId, ProjectInfo.class);
-//        logger.info("Updating cache for projectId : " + projectId);
-//        projectsCache.put(projectId, projectInfo);
-//        return projectsCache.get(projectId);
-//    }
-
-//    public ProjectInfo getProjectFromInMemoryCache(long projectId) {
-//        logger.info("reading from Cache for projectId : " + projectId);
-//        return projectsCache.get(projectId);
-//    }
-
-    @HystrixCommand(fallbackMethod = "getProjectFromRedisCache")
+    @HystrixCommand(fallbackMethod = "getProjectFromInMemoryCache")
     public ProjectInfo getProject(long projectId) {
-
-        try {
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            logger.info("Calling real service for projectId : " + projectId);
-            ProjectInfo projectInfo = restOperations.getForObject(registrationServerEndpoint + "/projects/" + projectId, ProjectInfo.class);
-            logger.info("Updating cache for projectId : " + projectId);
-
-            ValueOperations<String, String> ops = this.template.opsForValue();
-            if (!this.template.hasKey(String.valueOf(projectId))) {
-
-                ops.set(String.valueOf(projectId), objectMapper.writeValueAsString(projectInfo));
-            }
-
-            return objectMapper.readValue(ops.get(String.valueOf(projectId)), ProjectInfo.class);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        logger.info("Calling real service for projectId : " + projectId);
+        ProjectInfo projectInfo = restOperations.getForObject(registrationServerEndpoint + "/projects/" + projectId, ProjectInfo.class);
+        logger.info("Updating cache for projectId : " + projectId);
+        projectsCache.put(projectId, projectInfo);
+        return projectsCache.get(projectId);
     }
 
-    public ProjectInfo getProjectFromRedisCache(long projectId) throws Exception {
-        logger.info("reading from Redis Cache for projectId : " + projectId);
-        ObjectMapper objectMapper = new ObjectMapper();
-        ValueOperations<String, String> ops = this.template.opsForValue();
-        return objectMapper.readValue(ops.get(String.valueOf(projectId)), ProjectInfo.class);
+    public ProjectInfo getProjectFromInMemoryCache(long projectId) {
+        logger.info("reading from Cache for projectId : " + projectId);
+        return projectsCache.get(projectId);
     }
+
+//    @HystrixCommand(fallbackMethod = "getProjectFromRedisCache")
+//    public ProjectInfo getProject(long projectId) {
+//
+//        try {
+//
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            logger.info("Calling real service for projectId : " + projectId);
+//            ProjectInfo projectInfo = restOperations.getForObject(registrationServerEndpoint + "/projects/" + projectId, ProjectInfo.class);
+//            logger.info("Updating cache for projectId : " + projectId);
+//
+//            ValueOperations<String, String> ops = this.template.opsForValue();
+//            if (!this.template.hasKey(String.valueOf(projectId))) {
+//
+//                ops.set(String.valueOf(projectId), objectMapper.writeValueAsString(projectInfo));
+//            }
+//
+//            return objectMapper.readValue(ops.get(String.valueOf(projectId)), ProjectInfo.class);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//
+//    public ProjectInfo getProjectFromRedisCache(long projectId) throws Exception {
+//        logger.info("reading from Redis Cache for projectId : " + projectId);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        ValueOperations<String, String> ops = this.template.opsForValue();
+//        return objectMapper.readValue(ops.get(String.valueOf(projectId)), ProjectInfo.class);
+//    }
 
 }

@@ -35,26 +35,26 @@ public class App {
         RestOperations restOperations,
         @Value("${registration.server.endpoint}") String registrationEndpoint
     ) {
-        return new ProjectClient(restOperations, registrationEndpoint, redisTemplate());
+        return new ProjectClient(restOperations, registrationEndpoint, null);
     }
 
-    @Bean
-    JedisConnectionFactory jedisConnectionFactory() {
-
-        return new JedisConnectionFactory();
-
-    }
-
-    @Bean
-    @Qualifier("MyRedisTemplate")
-    public RedisTemplate<String, Object> redisTemplate() {
-        final RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
-
-        template.setConnectionFactory(jedisConnectionFactory());
-
-        template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
-
-        return template;
-
-    }
+//    @Bean
+//    JedisConnectionFactory jedisConnectionFactory() {
+//
+//        return new JedisConnectionFactory();
+//
+//    }
+//
+//    @Bean
+//    @Qualifier("MyRedisTemplate")
+//    public RedisTemplate<String, Object> redisTemplate() {
+//        final RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+//
+//        template.setConnectionFactory(jedisConnectionFactory());
+//
+//        template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
+//
+//        return template;
+//
+//    }
 }
