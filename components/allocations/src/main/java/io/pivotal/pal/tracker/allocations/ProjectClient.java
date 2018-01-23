@@ -20,17 +20,17 @@ public class ProjectClient {
 
     private final Map<Long, ProjectInfo> projectsCache = new ConcurrentHashMap<>();
 
-
-    @Autowired
-    @Qualifier("MyRedisTemplate")
-    private RedisTemplate template;
+//
+//    @Autowired
+//    @Qualifier("MyRedisTemplate")
+//    private RedisTemplate template;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-    public ProjectClient(RestOperations restOperations, String registrationServerEndpoint, final RedisTemplate<String, Object> redisTemplate) {
+    public ProjectClient(RestOperations restOperations, String registrationServerEndpoint) {
         this.restOperations = restOperations;
         this.registrationServerEndpoint = registrationServerEndpoint;
-        this.template = redisTemplate;
+    //    this.template = redisTemplate;
     }
 
     @HystrixCommand(fallbackMethod = "getProjectFromInMemoryCache")

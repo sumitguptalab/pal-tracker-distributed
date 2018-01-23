@@ -35,7 +35,7 @@ public class App {
         RestOperations restOperations,
         @Value("${registration.server.endpoint}") String registrationEndpoint
     ) {
-        return new ProjectClient(restOperations, registrationEndpoint, null);
+        return new ProjectClient(restOperations, registrationEndpoint);
     }
 
 //    @Bean
